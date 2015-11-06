@@ -11,11 +11,13 @@ main(_) :-
     statistics(runtime,[_,Time]),
     write('No solutions: RunTime: '),write(Time),nl.
    
-main(N, ACTIONSOCC,STATES):-                               %%%%%%%%%%%%%%%%%%%%%
-    setof(F, fluent(F), Lf), setof(A, action(A), La),      %%% Problem Input %%%
-    setof(F, initially(F), Init), setof(F, goal(F), Goal), %%%%%%%%%%%%%%%%%%%%% 
+main(N, ACTIONSOCC,STATES):-                               
+    setof(F, fluent(F), Lf), setof(A, action(A), La),
+	%nl,nl,write('Actions-> '),%nl,nl,nl,write(La), 	
+    setof(F, initially(F), Init), setof(F, goal(F), Goal), 
     make_states(N,Lf,STATES),
-    make_action_occurrences(N,La,ACTIONSOCC),
+	%nl,nl,nl,write('Number N -> '),nl,nl,nl,write('States -> '),nl,nl,nl,write(STATES),nl,nl,
+    make_action_occurrences(N,La,ACTIONSOCC),%nl,nl,write('ActionsOcc-> '),nl,nl,nl,write(ACTIONSOCC),
     set_initial(Init,STATES),
     %write('Initial State:'),nl, STATES=[S|_],write_state(S),nl,
     set_goal(Goal,STATES), 
