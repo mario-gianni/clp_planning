@@ -65,14 +65,14 @@ connecting(room5,courtyard1,window2).
 connecting(courtyard1,room4,window1).
 connecting(room4,courtyard1,window1).
 
-path(Robot,From,To):- path3(Robot,From,To,_,_,_).								
-path3(Robot,From,To,Path,Door,L) :- path_2(Robot,From,To,[],[],L1,Path,Door),length(Path,L1), L is L1 - 1.
-path_2(Robot,From,To,PVisited,DVisited,L,[From|Path],[Portal|Door]):- place(Place),
-									((ground_robot(Robot),door(Portal)) ; (flying_robot(Robot),(door(Portal);window(Portal)))),
-									not(blocked(Portal)),
-								    not(member(Place,PVisited)),connecting(From,Place,Portal),not(member(Portal,DVisited)),
-									path_2(Robot,Place,To,[Place|PVisited],[Portal|DVisited],L,Path,Door).
-path_2(_,To,To,_,_,_,[To],[]).
+%path(Robot,From,To):- path3(Robot,From,To,_,_,_).								
+%path3(Robot,From,To,Path,Door,L) :- path_2(Robot,From,To,[],[],L1,Path,Door),length(Path,L1), L is L1 - 1.
+%path_2(Robot,From,To,PVisited,DVisited,L,[From|Path],[Portal|Door]):- place(Place),
+%									((ground_robot(Robot),door(Portal)) ; (flying_robot(Robot),(door(Portal);window(Portal)))),
+%									not(blocked(Portal)),
+%								    not(member(Place,PVisited)),connecting(From,Place,Portal),not(member(Portal,DVisited)),
+%									path_2(Robot,Place,To,[Place|PVisited],[Portal|DVisited],L,Path,Door).
+%path_2(_,To,To,_,_,_,[To],[]).
 
 % Actions specification
 action(move(Agent,From,To)):-ground_robot(Agent),place(From),place(To),diff(From,To).
@@ -90,7 +90,7 @@ causes(fly(Agent,From,To),in(Agent,To),[]):-	flying_robot(Agent),place(From),pla
 causes(fly(Agent,From,To),mneg(in(Agent,From)),[]):-	flying_robot(Agent),place(From),place(To),diff(From,To).
 
 % Caused formulae
-caused([in(Agent,To)],mneg(in(Agent,From))):- (ground_robot(Agent);flying_robot(Agent)),place(From),place(To),diff(From,To).
+caused([in(Agent,To)],mneg(in(Agent,From))):- (ground_robot(Agent);flying_robot(Agent);victim(Agent)),place(From),place(To),diff(From,To).
 caused([in(Agent,To),in(Victim,To)],saved(Victim)):- (ground_robot(Agent);flying_robot(Agent)),victim(Victim),place(To).
 
 % Action precondition
